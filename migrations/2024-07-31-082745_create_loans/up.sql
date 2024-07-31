@@ -4,6 +4,7 @@ CREATE TYPE loan_type AS ENUM ('personal', 'auto', 'student', 'mortgage', 'payda
 CREATE TABLE loans (
     id SERIAL PRIMARY KEY,
     loan loan_type,
+    amount INTEGER NOT NULL,
     upper_limit INTEGER NOT NULL,
     deadline TIMESTAMP WITHOUT TIME ZONE NOT NULL,
     user_id INTEGER REFERENCEs users (id),

@@ -13,6 +13,7 @@ diesel::table! {
     loans (id) {
         id -> Int4,
         loan -> Nullable<LoanType>,
+        amount -> Int4,
         upper_limit -> Int4,
         deadline -> Timestamp,
         user_id -> Nullable<Int4>,
@@ -26,7 +27,6 @@ diesel::table! {
         id -> Int4,
         #[max_length = 150]
         name -> Varchar,
-        amount -> Int4,
         #[max_length = 150]
         email -> Varchar,
         #[max_length = 150]
