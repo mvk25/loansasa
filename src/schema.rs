@@ -12,11 +12,12 @@ diesel::table! {
 
     loans (id) {
         id -> Int4,
-        loan -> Nullable<LoanType>,
+        loan -> LoanType,
         amount -> Int4,
         upper_limit -> Int4,
+        status -> Bool,
         deadline -> Timestamp,
-        user_id -> Nullable<Int4>,
+        users_id -> Int4,
         updated_at -> Timestamp,
         created_at -> Timestamp,
     }
@@ -39,7 +40,7 @@ diesel::table! {
     }
 }
 
-diesel::joinable!(loans -> users (user_id));
+diesel::joinable!(loans -> users (users_id));
 
 diesel::allow_tables_to_appear_in_same_query!(
     loans,

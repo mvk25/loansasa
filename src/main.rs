@@ -4,12 +4,12 @@ pub mod schema;
 pub mod db_operations;
 
 use std::sync::Arc;
-
 use actix_session::{storage::CookieSessionStore, SessionMiddleware};
 use actix_web::{cookie::{Key, SameSite}, web, App, HttpResponse, HttpServer, Responder};
 use db_operations::db::establish_pool_conn;
 use models::app_state::AppState;
 use crate::controllers::users::*;
+use crate::controllers::loans::*;
 
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
@@ -28,5 +28,8 @@ async fn main() -> std::io::Result<()> {
             .route("/login", web::get().to(login_page))
             .route("/login", web::post().to(login_user))
             .route("/dashboard", web::get().to(dashboard))
+            .route("/new-loan", web::get().to(new_loan_page))
+            .route("/new-loan", web::post().to(new_loan))
     }).bind("127.0.0.1:8080")?.run().await
+
 }

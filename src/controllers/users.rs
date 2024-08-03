@@ -2,6 +2,7 @@ use actix_session::Session;
 use actix_web::{web, HttpResponse, Responder};
 use diesel::SelectableHelper;
 use r2d2::LoggingErrorHandler;
+use crate::db_operations::loans::get_user_loans;
 use crate::db_operations::users::get_user_by_email;
 use crate::models::{app_state::AppState, users::*};
 use crate::models::ui::{DashboardTemplate, LoginTemplate, RegisterTemplate};
@@ -95,9 +96,11 @@ pub async fn dashboard(state: web::Data<AppState>, session: Session) -> Result<H
 
             match get_user_by_email(&mut connection, &user_email) {
                 Some(user) => {
+                    let loans = get_user_loans(&mut connection, user.id).unwrap();
                     let dashboard_template = DashboardTemplate {
                         email: Some(user.email.to_string()),
-                        user: Some(user)
+                        user: Some(user),
+                        loans: Some(loans)
                     };
                     println!("User found");
                     Ok(HttpResponse::Ok().content_type("text/html").body(dashboard_template.render().unwrap()))
@@ -110,7 +113,7 @@ pub async fn dashboard(state: web::Data<AppState>, session: Session) -> Result<H
         }
         Ok(None) => {
             println!("No user email in session");
-            Ok(HttpResponse::NotFound().append_header((actix_web::http::header::LOCATION, "/login")).finish())
+            Ok(HttpResponse::Found().append_header((actix_web::http::header::LOCATION, "/login")).finish())
         }
         Err(_) => {
             Err(actix_web::error::ErrorInternalServerError("Session error"))
