@@ -4,18 +4,23 @@ pub mod sql_types {
     #[derive(diesel::query_builder::QueryId, Clone, diesel::sql_types::SqlType)]
     #[diesel(postgres_type(name = "loan_type"))]
     pub struct LoanType;
+
+    #[derive(diesel::query_builder::QueryId, Clone, diesel::sql_types::SqlType)]
+    #[diesel(postgres_type(name = "status_type"))]
+    pub struct StatusType;
 }
 
 diesel::table! {
     use diesel::sql_types::*;
     use super::sql_types::LoanType;
+    use super::sql_types::StatusType;
 
     loans (id) {
         id -> Int4,
         loan -> LoanType,
         amount -> Int4,
         upper_limit -> Int4,
-        status -> Bool,
+        status -> StatusType,
         deadline -> Timestamp,
         users_id -> Int4,
         updated_at -> Timestamp,
@@ -32,6 +37,7 @@ diesel::table! {
         email -> Varchar,
         #[max_length = 150]
         password -> Varchar,
+        salary -> Int4,
         strikes -> Int4,
         loan_limit -> Int4,
         goodwill -> Int4,

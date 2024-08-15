@@ -47,26 +47,38 @@ impl FromSql<crate::schema::sql_types::LoanType, Pg> for LoanType {
     }
 }
 
-// use diesel::prelude::*;
-// use diesel_derive_enum::DbEnum;
-// use serde::{Deserialize, Serialize};
+#[derive(Debug, AsExpression, FromSqlRow, Serialize, Deserialize, Clone, Copy)]
+#[diesel(sql_type = crate::schema::sql_types::StatusType)]
+pub enum StatusType {
+    Pending,
+    Active,
+    Paid,
+    Overdue,
+}
+impl ToSql<crate::schema::sql_types::StatusType, Pg> for crate::models::loans::StatusType {
+    fn to_sql<'b>(&'b self, out: &mut Output<'b, '_, Pg>) -> diesel::serialize::Result {
+        match *self {
+            crate::models::loans::StatusType::Pending => out.write_all(b"pending")?,
+            crate::models::loans::StatusType::Active => out.write_all(b"active")?,
+            crate::models::loans::StatusType::Paid => out.write_all(b"paid")?,
+            crate::models::loans::StatusType::Overdue => out.write_all(b"overdue")?,
+        }
+        Ok(IsNull::No)
+    }
+}
 
-// #[derive(Debug, DbEnum, Serialize, Deserialize)]
-// #[DieselType = "Loan_type"]
-// pub enum LoanType {
-//     #[serde(rename = "personal")]
-//     Personal,
-//     #[serde(rename = "auto")]
-//     Auto,
-//     #[serde(rename = "student")]
-//     Student,
-//     #[serde(rename = "mortgage")]
-//     Mortgage,
-//     #[serde(rename = "payday")]
-//     Payday,
-//     #[serde(rename = "msme")]
-//     Msme,
-// }
+impl FromSql<crate::schema::sql_types::StatusType, Pg> for crate::models::loans::StatusType {
+    fn from_sql(bytes: PgValue) -> deserialize::Result<Self> {
+        match bytes.as_bytes() {
+            b"pending" => Ok(crate::models::loans::StatusType::Pending),
+            b"active" => Ok(crate::models::loans::StatusType::Active),
+            b"paid" => Ok(crate::models::loans::StatusType::Paid),
+            b"overdue" => Ok(crate::models::loans::StatusType::Overdue),
+            _ => Err("Unrecognized enum variant".into()),
+        }
+    }
+}
+
 
 #[derive(Queryable, Selectable, Associations, Identifiable, Debug)]
 #[diesel(belongs_to(Users))]
@@ -77,7 +89,7 @@ pub struct Loans {
     pub loan: LoanType,
     pub amount: i32,
     pub upper_limit: i32,
-    pub status: bool,
+    pub status: StatusType,
     pub deadline: chrono::NaiveDateTime,
     pub users_id: i32,
     pub updated_at: chrono::NaiveDateTime,

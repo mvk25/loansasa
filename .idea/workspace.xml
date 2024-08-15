@@ -8,8 +8,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="0a5868f9-1998-4a66-930c-684d7b97103d" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/target/debug/loansasa" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/release/loansasa" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/migrations/2024-07-31-082702_create_users/up.sql" beforeDir="false" afterPath="$PROJECT_DIR$/migrations/2024-07-31-082702_create_users/up.sql" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/migrations/2024-07-31-082745_create_loans/up.sql" beforeDir="false" afterPath="$PROJECT_DIR$/migrations/2024-07-31-082745_create_loans/up.sql" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/models/loans.rs" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/loans.rs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/schema.rs" beforeDir="false" afterPath="$PROJECT_DIR$/src/schema.rs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -35,12 +38,13 @@
   "keyToString": {
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.rust.reset.selective.auto.import": "true",
-    "git-widget-placeholder": "main",
+    "git-widget-placeholder": "loan__updates",
     "node.js.detected.package.eslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
     "nodejs_package_manager_path": "npm",
     "org.rust.cargo.project.model.PROJECT_DISCOVERY": "true",
-    "org.rust.first.attach.projects": "true"
+    "org.rust.first.attach.projects": "true",
+    "settings.editor.selected.configurable": "preferences.keymap"
   }
 }]]></component>
   <component name="RunManager" selected="Cargo.Run loansasa">
@@ -90,7 +94,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1723716101017</updated>
-      <workItem from="1723716103750" duration="684000" />
+      <workItem from="1723716103750" duration="1327000" />
     </task>
     <servers />
   </component>
