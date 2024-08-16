@@ -19,7 +19,7 @@
 </head>
 <body>
     <div class="d-flex flex-column min-vh-100">
-        <header class="px-4 py-3 bg-light">
+        <header class="py-3 bg-light">
             <div class="container d-flex justify-content-between align-items-center">
                 <a href="#" class="d-flex align-items-center text-decoration-none">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="black" class="bi bi-credit-card" viewBox="0 0 16 16">
@@ -30,11 +30,11 @@
                 </a>
                 <nav>
                     {% if let Some(user) = user %}
-                        <!-- <a href="#" class="text-decoration-none text-dark me-3">Features</a> -->
+                        <a href="#" class="text-decoration-none text-dark me-3">Features</a>
                         <a href="#" class="text-decoration-none text-dark me-3">Rates</a>
                         <a href="#" class="text-decoration-none text-dark me-3">About</a>
-                        <!-- <a href="#" class="text-decoration-none text-dark">Contact</a> -->
-                        <p class="text-decoration-none text-dark me-3">{{ user.last_name }}</p>
+                        <a href="#" class="text-decoration-none text-dark">Contact</a>
+                        <!-- <p class="text-decoration-none text-dark me-3">{{ user.last_name }}</p> -->
                     {% else %}
                         <a href="/login" class="badge badge-light text-decoration-none text-dark me-3">Login</a>
                     {% endif %}

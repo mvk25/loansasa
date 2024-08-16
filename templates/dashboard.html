@@ -3,157 +3,263 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>User Dashboard</title>
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <title>Bootstrap Conversion</title>
   <style>
-    .dashboard {
-      margin-top: 50px;
+    :root {
+      --primary-bg-color: #1a2a4b;
+      --secondary-bg-color: #1a2a4b;
+      --highlight-bg-color: #f5f5f5;
+      --highlight-text-color: white;
+      --tertiary-bg-color: #3b5998;
     }
-    body {
+    body, h1, h2, h3, h4, h5, h6 {
       font-family: 'Inter', sans-serif;
+    }
+    .card-header {
+      background-color: var(--primary-bg-color);
+      color: var(--highlight-text-color);
+    }
+    .bg-custom {
+      background-color: var(--secondary-bg-color);
+      color: var(--highlight-text-color);
+    }
+    .bg-custom-2 {
+      background-color: var(--tertiary-bg-color);
+      color: var(--highlight-text-color);
+      height: 150px;
+      border: 1px solid white;
+    }
+    .bg-warning-custom {
+      background-color: #ffc107;
+      color: black;
     }
   </style>
 </head>
 <body>
-  {% if let Some(user) = user %}
-  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-    <a class="navbar-brand" href="#">User Dashboard</a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarNav">
-      <ul class="navbar-nav w-100">
-        <li class="nav-item">
-          <a class="nav-link" href="#">Home</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#">Profile</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#">Settings</a>
-        </li>
-        <li class="nav-item ml-auto">
-            <p class="nav-link mb-0">{{ user.first_name }} {{ user.last_name }}</p>
-        </li>
-      </ul>
-    </div>
-  </nav>
-  {% endif %}
+  <div class="d-flex flex-column min-vh-100">
+    <!-- <header class="d-flex align-items-center bg-custom p-3 border-bottom">
+      <nav class="d-none d-md-flex flex-row gap-3">
+        <a class="text-white fw-semibold" href="#">Logo</a>
+        <a class="fw-bold" href="#">Dashboard</a>
+        <a class="text-muted" href="#">Exchange</a>
+        <a class="text-muted" href="#">Reports</a>
+      </nav>
+      <div class="ms-auto d-flex gap-3">
+        <button class="btn btn-outline-light">Manage Funds</button>
+        <button class="btn btn-outline-light">Liz Hawaii</button>
+        <button class="btn btn-outline-light">Help Centre</button>
+      </div>
+    </header> -->
+    <header class="d-flex align-items-center px-4 border-bottom bg-dark text-white" style="height: 64px;">
+      <nav class="d-none d-md-flex flex-row align-items-center gap-3 me-auto">
+        <a href="#" class="d-flex align-items-center gap-2 fw-semibold text-white text-decoration-none">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-box-arrow-in-right" viewBox="0 0 16 16">
+            <path fill-rule="evenodd" d="M6 3.5a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 .5.5v9a.5.5 0 0 1-.5.5h-7a.5.5 0 0 1-.5-.5v-2a.5.5 0 0 0-1 0v2a1.5 1.5 0 0 0 1.5 1.5h7a1.5 1.5 0 0 0 1.5-1.5v-9A1.5 1.5 0 0 0 13.5 2h-7A1.5 1.5 0 0 0 5 3.5v2a.5.5 0 0 0 1 0v-2z"/>
+            <path fill-rule="evenodd" d="M11.354 8.354a.5.5 0 0 0 0-.708l-2-2a.5.5 0 1 0-.708.708L10.293 8 8.646 9.646a.5.5 0 0 0 .708.708l2-2z"/>
+            <path fill-rule="evenodd" d="M2 8a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7A.5.5 0 0 1 2 8z"/>
+          </svg>
+          <span class="visually-hidden">Logo</span>
+        </a>
+        <a href="#" class="fw-bold text-white text-decoration-none">Dashboard</a>
+        <a href="#" class="text-secondary text-decoration-none">Exchange</a>
+        <a href="#" class="text-secondary text-decoration-none">Reports</a>
+      </nav>
+      <div class="d-flex align-items-center gap-2 ms-auto">
+        <a href="/new-loan" class="btn btn-outline-light btn-sm">Manage Funds</a>
+        <div class="dropdown">
+          <span class="ml-2">Liz Hawaii</span>
+          <button class="btn btn-outline-secondary dropdown-toggle" type="button" id="accountMenuButton"
+              data-bs-toggle="dropdown" aria-expanded="false">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none"
+                  stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="m6 9 6 6 6-6" />
+              </svg>
+          </button>
+          <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="accountMenuButton">
+              <li><a class="dropdown-item" href="#">Settings</a></li>
+              <li><a class="dropdown-item" href="#">Logout</a></li>
+          </ul>
+        </div>
+      </div>
+    </header>
+    
+    <main class="flex-fill bg-light p-4">
+      <div class="bg-custom text-white p-4 rounded">
+        <div class="d-flex justify-content-between align-items-center">
+          <h2>Account Summary</h2>
+          <div class="badge bg-secondary text-white">Regular</div>
+        </div>
+        <div class="row mt-4">
+          <div class="col-lg-3 col-md-6 mb-4">
+            <div class="card bg-custom-2">
+              <div class="card-body">
+                <h3 class="card-title">£0.00</h3>
+                <p class="card-text">Gross investment</p>
+                <p class="text-muted">Average AER yield 0.00%</p>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-3 col-md-6 mb-4">
+            <div class="card bg-custom-2">
+              <div class="card-body">
+                <h3 class="card-title">£0.00</h3>
+                <p class="card-text">Cash</p>
+                <p class="text-muted"></p>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-3 col-md-6 mb-4">
+            <div class="card bg-custom-2">
+              <div class="card-body">
+                <h3 class="card-title">£0.00</h3>
+                <p class="card-text">Unmatched by orders</p>
+                <p class="text-muted"></p>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-3 col-md-6 mb-4">
+            <div class="card bg-custom-2">
+              <div class="card-body">
+                <h3 class="card-title">£0.00</h3>
+                <p class="card-text">Total platform balance</p>
+                <p class="text-muted"></p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row mt-4">
+        <div class="col-md-8">
+          <h3>Recent Activity</h3>
+          <div class="row mt-3">
+            <div class="col-md-6 col-lg-4">
+              <div class="card">
+                <div class="card-body">
+                  <div class="h3 fw-bold">£0</div>
+                  <p class="small mb-0">Net income received in last 30 days</p>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6 col-lg-4">
+              <div class="card">
+                <div class="card-body">
+                  <div class="h3 fw-bold">£0</div>
+                  <p class="small mb-0">Amount invested in last 30 days</p>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6 col-lg-4">
+              <div class="card">
+                <div class="card-body">
+                  <div class="h3 fw-bold">0</div>
+                  <p class="small mb-0">Total number of properties currently invested in</p>
+                </div>
+              </div>
+            </div>
+            <!-- Repeat cards for recent activity -->
+          </div>
+          <!-- Tabs for Recent Activity and Net Spend -->
+          <ul class="nav nav-tabs" id="myTab" role="tablist">
+            <li class="nav-item" role="presentation">
+              <button class="nav-link active" id="recent-activity-tab" data-bs-toggle="tab" data-bs-target="#recent-activity" type="button" role="tab" aria-controls="recent-activity" aria-selected="true">
+                Recent Activity
+              </button>
+            </li>
+            <li class="nav-item" role="presentation">
+              <button class="nav-link" id="net-spend-tab" data-bs-toggle="tab" data-bs-target="#net-spend" type="button" role="tab" aria-controls="net-spend" aria-selected="false">
+                Net Spend
+              </button>
+            </li>
+          </ul>
 
-  <div class="container dashboard">
-    <div class="row">
-      <div class="col-md-3">
-        <div class="card">
-          <div class="card-body">
-            <h5 class="card-title">Recent Activity</h5>
-            <ul class="list-group">
-              <li class="list-group-item">Logged in</li>
-              <li class="list-group-item">Updated profile picture</li>
-              <li class="list-group-item">Viewed notifications</li>
-            </ul>
+          <div class="tab-content" id="myTabContent">
+            <!-- Recent Activity Tab -->
+            <div class="tab-pane fade show active" id="recent-activity" role="tabpanel" aria-labelledby="recent-activity-tab">
+              <div class="card">
+                <div class="card-header">
+                  <h5 class="card-title">Recent Loans</h5>
+                </div>
+                <div class="card-body">
+                  <table class="table">
+                    <thead>
+                      <tr>
+                        <th>Loan Type</th>
+                        <th>Amount</th>
+                        <th>Date</th>
+                        <th>Status</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td>Personal Loan</td>
+                        <td>$5,000</td>
+                        <td>2023-04-15</td>
+                        <td><span class="badge bg-secondary">Approved</span></td>
+                      </tr>
+                      <tr>
+                        <td>Home Loan</td>
+                        <td>$120,000</td>
+                        <td>2022-11-30</td>
+                        <td><span class="badge bg-secondary">Approved</span></td>
+                      </tr>
+                      <tr>
+                        <td>Auto Loan</td>
+                        <td>$15,000</td>
+                        <td>2023-02-20</td>
+                        <td><span class="badge bg-secondary">Approved</span></td>
+                      </tr>
+                      <tr>
+                        <td>Student Loan</td>
+                        <td>$25,000</td>
+                        <td>2021-09-01</td>
+                        <td><span class="badge bg-secondary">Approved</span></td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+
+            <!-- Net Spend Tab -->
+            <div class="tab-pane fade" id="net-spend" role="tabpanel" aria-labelledby="net-spend-tab">
+              <div class="card">
+                <div class="card-header">
+                  <h5 class="card-title">Net Spend</h5>
+                </div>
+                <div class="card-body">
+                  <!-- Placeholder for the chart -->
+                  <div class="aspect-ratio" style="padding-bottom: 44.44%; background-color: #f8f9fa;"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+        <div class="col-md-4">
+          <h3>Information</h3>
+          <div class="row mt-3">
+            <div class="card bg-warning-custom">
+              <div class="card-body">
+                <h4>Investor category</h4>
+                <p>We're sorry, you do not meet the requirements to invest on Assetz Exchange.</p>
+                <p>Please call 0333 011 9830 or email helpdesk@assetzexchange.co.uk to discuss your Investor category.</p>
+              </div>
+            </div>
+            <div class="card bg-warning-custom mt-2">
+              <div class="card-body">
+                <h4>Investor category</h4>
+                <p>We're sorry, you do not meet the requirements to invest on Assetz Exchange.</p>
+                <p>Please call 0333 011 9830 or email helpdesk@assetzexchange.co.uk to discuss your Investor category.</p>
+              </div>
+            </div>
+            <!-- Repeat for AML check card -->
           </div>
         </div>
       </div>
-      <div class="col-md-6">
-        <div class="card">
-          <div class="card-body">
-            <h5 class="card-title">Loan History</h5>
-            <table class="table">
-              <thead>
-                <tr>
-                  <th>Loan ID</th>
-                  <th>Amount</th>
-                  <th>Date</th>
-                  <th>Status</th>
-                </tr>
-              </thead>
-              {% if let Some(loans) = loans %}
-                {% for loan in loans %}
-                  <tbody>
-                    <tr>
-                      <td>LN00{{ loan.id }}</td>
-                      <td>${{ loan.amount }}</td>
-                      <td>{{ loan.created_at }}</td>
-                      <td>Paid</td>
-                    </tr>
-                  </tbody>
-                {% endfor %}
-              {% endif %}
-            </table>
-          </div>
-          <a class="btn btn-primary" href="/new-loan" role="button">Take new loan</a>
-        </div>
-        <div class="card mt-4">
-          <div class="card-body">
-            <h5 class="card-title">Current Loans</h5>
-            <table class="table">
-              <thead>
-                <tr>
-                  <th>Loan ID</th>
-                  <th>Amount</th>
-                  <th>Due Date</th>
-                  <th>Time Remaining</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>LN0098765</td>
-                  <td>$8,000</td>
-                  <td>08/15/2024</td>
-                  <td><span id="countdown1"></span></td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
-      </div>
-      <div class="col-md-3">
-        <div class="card">
-          <div class="card-body">
-            <h5 class="card-title">Quick Links</h5>
-            <ul class="list-group">
-              <li class="list-group-item"><a href="#">Messages</a></li>
-              <li class="list-group-item"><a href="#">Billing</a></li>
-              <li class="list-group-item"><a href="#">Support</a></li>
-            </ul>
-          </div>
-        </div>
-      </div>
-    </div>
+      <h3 class="mt-5">Net revenue per month (£)</h3>
+    </main>
   </div>
-
-  <script>
-    // Set the date we're counting down to
-    var countDownDate1 = new Date("Aug 15, 2024 23:59:59").getTime();
-
-    // Update the count down every 1 second
-    var x = setInterval(function() {
-
-      // Get today's date and time
-      var now = new Date().getTime();
-
-      // Find the distance between now and the count down date
-      var distance = countDownDate1 - now;
-
-      // Time calculations for days, hours, minutes and seconds
-      var days = Math.floor(distance / (1000 * 60 * 60 * 24));
-      var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-      var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-      var seconds = Math.floor((distance % (1000 * 60)) / 1000);
-
-      // Display the result in the element with id="countdown1"
-      document.getElementById("countdown1").innerHTML = days + "d " + hours + "h "
-      + minutes + "m " + seconds + "s ";
-
-      // If the count down is finished, write some text
-      if (distance < 0) {
-        clearInterval(x);
-        document.getElementById("countdown1").innerHTML = "EXPIRED";
-      }
-    }, 1000);
-  </script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

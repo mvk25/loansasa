@@ -1,71 +1,132 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>User Dashboard</title>
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-  <style>
-    .dashboard {
-      margin-top: 50px;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Loans App</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
+
 <body>
-  {% if let Some(error) = error %}
-    <p class="--bs-warning-text-emphasis">{{ error }}</p>
-  {% endif %}
-  {% if let Some(user) = user %}
-  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-    <a class="navbar-brand" href="#">User Dashboard</a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarNav">
-      <ul class="navbar-nav w-100">
-        <li class="nav-item">
-          <a class="nav-link" href="#">Home</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#">Profile</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#">Settings</a>
-        </li>
-        <li class="nav-item ml-auto">
-            <p class="nav-link mb-0">{{ user.first_name }} {{ user.last_name }}</p>
-        </li>
-      </ul>
-    </div>
-  </nav>
-  <div class="container my-4">
-    <form action="/new-loan" method="post">
-      <div class="mb-3">
-        <label for="loan">Choose Loan Type</label>
-        <select name="loan" id="loan">
-          <option value="">--Please choose an option--</option>
-          <option value="Personal">Personal</option>
-          <option value="Auto">Auto</option>
-          <option value="Student">Student</option>
-          <option value="Mortgage">Mortgage</option>
-          <option value="Payday">Payday</option>
-          <option value="Msme">Msme</option>
-        </select>
+  <div class="container-fluid d-flex flex-column min-vh-100 bg-light">
+    <header class="d-flex align-items-center px-4 border-bottom bg-dark text-white" style="height: 64px;">
+      <nav class="d-none d-md-flex flex-row align-items-center gap-3 me-auto">
+        <a href="#" class="d-flex align-items-center gap-2 fw-semibold text-white text-decoration-none">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-box-arrow-in-right" viewBox="0 0 16 16">
+            <path fill-rule="evenodd" d="M6 3.5a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 .5.5v9a.5.5 0 0 1-.5.5h-7a.5.5 0 0 1-.5-.5v-2a.5.5 0 0 0-1 0v2a1.5 1.5 0 0 0 1.5 1.5h7a1.5 1.5 0 0 0 1.5-1.5v-9A1.5 1.5 0 0 0 13.5 2h-7A1.5 1.5 0 0 0 5 3.5v2a.5.5 0 0 0 1 0v-2z"/>
+            <path fill-rule="evenodd" d="M11.354 8.354a.5.5 0 0 0 0-.708l-2-2a.5.5 0 1 0-.708.708L10.293 8 8.646 9.646a.5.5 0 0 0 .708.708l2-2z"/>
+            <path fill-rule="evenodd" d="M2 8a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7A.5.5 0 0 1 2 8z"/>
+          </svg>
+          <span class="visually-hidden">Logo</span>
+        </a>
+        <a href="/dashboard" class="fw-bold text-white text-decoration-none">Dashboard</a>
+        <a href="#" class="text-secondary text-decoration-none">Exchange</a>
+        <a href="#" class="text-secondary text-decoration-none">Reports</a>
+      </nav>
+      <div class="d-flex align-items-center gap-2 ms-auto">
+        <a href="/new-loan" class="btn btn-outline-light btn-sm">Manage Funds</a>
+        <div class="dropdown">
+          <button class="btn btn-outline-secondary dropdown-toggle" type="button" id="accountMenuButton"
+              data-bs-toggle="dropdown" aria-expanded="false">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none"
+                  stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="m6 9 6 6 6-6" />
+              </svg>
+          </button>
+          <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="accountMenuButton">
+              <li><a class="dropdown-item" href="#">Settings</a></li>
+              <li><a class="dropdown-item" href="#">Logout</a></li>
+          </ul>
+        </div>
       </div>
-      <div class="mb-3">
-        <label for="amount">Amount</label>
-        <input type="number" id="amount" name="amount" required >
-      </div>
-      <div class="mb-3">
-        <label for="deadline">Estimated Return Day</label>
-        <input type="datetime-local" id="deadline" name="deadline" required >
-      </div>
-      <button type="submit" class="btn btn-primary">Take new loan</button>
-    </form>
+    </header>
+      <main class="flex-grow-1 p-3">
+        <section class="py-5">
+          <div class="row align-items-center">
+            <div class="col-md-6">
+              <h1 class="display-4 fw-bold">Get the Loan You Need</h1>
+              <p class="lead">Our loans are designed to help you achieve your financial goals, whether you're looking for a personal loan, a business loan, or a mortgage.</p>
+            </div>
+            <div class="col-md-6">
+              <img src="placeholder.svg" alt="Loan Application" class="img-fluid rounded">
+            </div>
+          </div>
+        </section>
+        <button class="btn btn-outline-primary mt-3" data-bs-toggle="modal" data-bs-target="#loanModal">Get a Loan</button>
+        <div class="modal fade" id="loanModal" tabindex="-1" aria-labelledby="loanModalLabel" aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="loanModalLabel">Choose a Loan Type</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body">
+                <div class="d-grid gap-2">
+                  <button class="btn btn-outline-secondary" data-loan-type="Personal">Personal Loan</button>
+                  <button class="btn btn-outline-secondary" data-loan-type="Auto">Auto Loan</button>
+                  <button class="btn btn-outline-secondary" data-loan-type="Mortgage">Mortgage Loan</button>
+                  <button class="btn btn-outline-secondary" data-loan-type="Student">Student Loan</button>
+                  <button class="btn btn-outline-secondary" data-loan-type="Msme">MSME Loan</button>
+                  <button class="btn btn-outline-secondary" data-loan-type="Payday">Payday Loan</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <form id="loanForm" class="card mt-4 d-none" method="POST" action="/new-loan">
+          <div class="card-header">
+            <h5 class="card-title" id="loanTitle"></h5>
+          </div>
+          <div class="card-body">
+            <input type="hidden" name="loan" id="loanTypeInput">
+            <div class="row g-3">
+              <div class="col-md-6">
+                <label for="amount" class="form-label">Loan Amount</label>
+                <input type="number" class="form-control" id="amount" name="amount" required>
+              </div>
+              <div class="col-md-6">
+                <label for="deadline" class="form-label">Deadline</label>
+                <input type="datetime-local" class="form-control" id="deadline" name="deadline" required>
+              </div>
+              </div>
+          </div>
+          <div class="card-footer">
+            <button type="submit" class="btn btn-primary">Apply for Loan</button>
+          </div>
+        </form>
+      </main>
   </div>
-  {% endif %}
-  </body>
-  </html>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    const loanForm = document.getElementById('loanForm');
+    const loanTitle = document.getElementById('loanTitle');
+    const loanTypeInput = document.getElementById('loanTypeInput');
+
+    document.querySelectorAll('[data-loan-type]').forEach(button => {
+      button.addEventListener('click', () => {
+        const loanType = button.getAttribute('data-loan-type');
+        loanTitle.innerText = `Apply for a ${loanType.charAt(0).toUpperCase() + loanType.slice(1)} Loan`;
+        loanTypeInput.value = loanType;
+        loanForm.classList.remove('d-none');
+        const modal = bootstrap.Modal.getInstance(document.getElementById('loanModal'));
+        modal.hide();
+      });
+    });
+
+    loanForm.addEventListener('submit', (event) => {
+      const amount = document.getElementById('amount').value;
+      const deadline = document.getElementById('deadline').value;
+
+      if (!amount || !deadline) {
+        event.preventDefault(); // Stop form submission
+        alert('Please fill in all required fields.');
+      }
+    });
+  </script>
+</body>
+
+</html>
+
