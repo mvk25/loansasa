@@ -10,6 +10,7 @@ use db_operations::db::establish_pool_conn;
 use models::app_state::AppState;
 use crate::controllers::users::*;
 use crate::controllers::loans::*;
+use actix_files as fs;
 
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
@@ -23,6 +24,8 @@ async fn main() -> std::io::Result<()> {
                 .cookie_same_site(SameSite::Lax)
                 .build()
             )
+            .service(fs::Files::new("/static", "./static").show_files_listing().use_last_modified(true),)
+            .route("/", web::get().to(home_page))
             .route("/register", web::get().to(register_page))
             .route("/register", web::post().to(register_user))
             .route("/login", web::get().to(login_page))

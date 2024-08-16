@@ -5,12 +5,48 @@ use r2d2::LoggingErrorHandler;
 use crate::db_operations::loans::get_user_loans;
 use crate::db_operations::users::get_user_by_email;
 use crate::models::{app_state::AppState, users::*};
-use crate::models::ui::{DashboardTemplate, LoginTemplate, RegisterTemplate};
+use crate::models::ui::{DashboardTemplate, HomeTemplate, LoginTemplate, RegisterTemplate};
 use crate::schema::users;
 use askama::Template;
 use diesel::prelude::*;
 use diesel::result::Error as E;
 use bcrypt::{hash, DEFAULT_COST, verify};
+
+pub async fn home_page(session: Session, state: web::Data<AppState>) -> Result<HttpResponse, actix_web::Error> {
+    let result = match session.get::<String>("user_email") {
+        Ok(Some(user_email)) => {
+            let mut connection = state.pool.get().map_err(|_| {
+                actix_web::error::ErrorInternalServerError("Database error")
+            })?;
+
+            match get_user_by_email(&mut connection, &user_email) {
+                Some(user) => {
+                    let template = HomeTemplate {
+                        user: Some(user)
+                    };                    
+                    Ok(HttpResponse::Ok().content_type("text/html").body(template.render().unwrap()))
+                }
+                None => {
+                    let template = HomeTemplate {
+                        user: None
+                    };                    
+                    Ok(HttpResponse::Ok().content_type("text/html").body(template.render().unwrap()))
+                }
+            }
+        }
+        Ok(None) => {
+            let template = HomeTemplate {
+                user: None
+            };                    
+            Ok(HttpResponse::Ok().content_type("text/html").body(template.render().unwrap()))
+        }
+        Err(_) => {
+            Err(actix_web::error::ErrorInternalServerError("Session error"))
+        }
+    };
+
+    result
+}
 
 async fn handle_register_error(error: &str) -> HttpResponse {
     let template = RegisterTemplate { error: Some(error) };
@@ -23,7 +59,7 @@ pub async fn register_page() -> HttpResponse {
 }
 
 pub async fn register_user(form: web::Form<NewUserForm>, state: web::Data<AppState>) -> HttpResponse {
-    if form.name.is_empty() || form.email.is_empty() || form.password.is_empty() {
+    if form.first_name.is_empty() || form.last_name.is_empty() || form.email.is_empty() || form.password.is_empty() {
         let template = RegisterTemplate { error: Some("All fields required") };
         return HttpResponse::BadRequest().body(template.render().unwrap());
     }
@@ -37,7 +73,8 @@ pub async fn register_user(form: web::Form<NewUserForm>, state: web::Data<AppSta
     };
 
     let new_user = NewUser {
-        name: &form.name,
+        first_name: &form.first_name,
+        last_name: &form.last_name,
         email: &form.email,
         password: &hashed_password,
     };

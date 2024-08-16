@@ -32,15 +32,19 @@ diesel::table! {
     users (id) {
         id -> Int4,
         #[max_length = 150]
-        name -> Varchar,
+        first_name -> Varchar,
+        #[max_length = 150]
+        last_name -> Varchar,
         #[max_length = 150]
         email -> Varchar,
         #[max_length = 150]
         password -> Varchar,
-        salary -> Int4,
         strikes -> Int4,
         loan_limit -> Int4,
         goodwill -> Int4,
+        loans_taken -> Int4,
+        successful_returns -> Int4,
+        default_times -> Int4,
         updated_at -> Timestamp,
         created_at -> Timestamp,
     }

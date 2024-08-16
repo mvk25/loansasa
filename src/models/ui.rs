@@ -27,3 +27,9 @@ pub struct NewLoanTemplate {
     pub error: Option<String>,
     pub user: Option<Users>
 }
+
+#[derive(Template)]
+#[template(path = "home.html")]
+pub struct HomeTemplate {
+    pub user: Option<Users>
+}
