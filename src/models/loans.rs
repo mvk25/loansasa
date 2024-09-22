@@ -5,7 +5,9 @@ use diesel::serialize::{self, IsNull, Output, ToSql};
 use std::io::Write;
 use diesel::prelude::*;
 use crate::models::users::Users;
+// use crate::schema::sql_types::StatusType;
 use serde::{Serialize, Deserialize};
+use std::fmt::Display;
 
 #[derive(Debug, AsExpression, FromSqlRow, Serialize, Deserialize, Clone, Copy)]
 #[diesel(sql_type = crate::schema::sql_types::LoanType)]
@@ -16,6 +18,21 @@ pub enum LoanType {
     Mortgage,
     Payday,
     Msme,
+}
+
+impl Display for LoanType {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        let output = match self {
+            LoanType::Personal => "Personal",
+            LoanType::Auto => "Auto",
+            LoanType::Student => "Student",
+            LoanType::Mortgage => "Mortgage",
+            LoanType::Payday => "Payday",
+            LoanType::Msme => "Msme",
+        };
+
+        write!(f, "{}", output)
+    }
 }
 
 impl ToSql<crate::schema::sql_types::LoanType, Pg> for LoanType {
@@ -55,6 +72,19 @@ pub enum StatusType {
     Paid,
     Overdue,
 }
+
+impl Display for StatusType {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        let output = match self {
+            StatusType::Pending => "PENDING",
+            StatusType::Active => "AUTO",
+            StatusType::Paid => "PAID",
+            StatusType::Overdue => "OVERDUE",
+        };
+
+        write!(f, "{}", output)
+    }
+}
 impl ToSql<crate::schema::sql_types::StatusType, Pg> for crate::models::loans::StatusType {
     fn to_sql<'b>(&'b self, out: &mut Output<'b, '_, Pg>) -> diesel::serialize::Result {
         match *self {
@@ -79,7 +109,6 @@ impl FromSql<crate::schema::sql_types::StatusType, Pg> for crate::models::loans:
     }
 }
 
-
 #[derive(Queryable, Selectable, Associations, Identifiable, Debug)]
 #[diesel(belongs_to(Users))]
 #[diesel(table_name = crate::schema::loans)]
@@ -90,6 +119,7 @@ pub struct Loans {
     pub amount: i32,
     pub upper_limit: i32,
     pub status: StatusType,
+    pub loanterm: i32,
     pub deadline: chrono::NaiveDateTime,
     pub users_id: i32,
     pub updated_at: chrono::NaiveDateTime,
@@ -103,6 +133,7 @@ pub struct NewLoan {
     pub loan: LoanType,
     pub amount: i32,
     pub upper_limit: i32,
+    pub loanterm: i32,
     pub deadline: chrono::NaiveDateTime,
     pub users_id: i32
 }
@@ -112,5 +143,5 @@ pub struct NewLoan {
 pub struct NewLoanForm {
     pub loan: LoanType,
     pub amount: i32,
-    pub deadline: String,
+    pub loanterm: i32,
 }

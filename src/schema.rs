@@ -2,6 +2,10 @@
 
 pub mod sql_types {
     #[derive(diesel::query_builder::QueryId, Clone, diesel::sql_types::SqlType)]
+    #[diesel(postgres_type(name = "employment_type"))]
+    pub struct EmploymentType;
+
+    #[derive(diesel::query_builder::QueryId, Clone, diesel::sql_types::SqlType)]
     #[diesel(postgres_type(name = "loan_type"))]
     pub struct LoanType;
 
@@ -21,10 +25,31 @@ diesel::table! {
         amount -> Int4,
         upper_limit -> Int4,
         status -> StatusType,
+        loanterm -> Int4,
         deadline -> Timestamp,
         users_id -> Int4,
         updated_at -> Timestamp,
         created_at -> Timestamp,
+    }
+}
+
+diesel::table! {
+    use diesel::sql_types::*;
+    use super::sql_types::EmploymentType;
+
+    personal_details (id) {
+        id -> Int4,
+        users_id -> Int4,
+        phone_number -> Int4,
+        date_of_birth -> Timestamp,
+        #[max_length = 150]
+        city -> Varchar,
+        employment -> EmploymentType,
+        office_number -> Int4,
+        monthly_salary -> Int4,
+        #[max_length = 150]
+        company_name -> Varchar,
+        office_email_id -> Int4,
     }
 }
 
@@ -51,8 +76,10 @@ diesel::table! {
 }
 
 diesel::joinable!(loans -> users (users_id));
+diesel::joinable!(personal_details -> users (users_id));
 
 diesel::allow_tables_to_appear_in_same_query!(
     loans,
+    personal_details,
     users,
 );

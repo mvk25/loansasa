@@ -41,62 +41,91 @@
         </div>
       </div>
     </header>
-      <main class="flex-grow-1 p-3">
-        <section class="py-5">
-          <div class="row align-items-center">
-            <div class="col-md-6">
-              <h1 class="display-4 fw-bold">Get the Loan You Need</h1>
-              <p class="lead">Our loans are designed to help you achieve your financial goals, whether you're looking for a personal loan, a business loan, or a mortgage.</p>
+    <main class="flex-grow-1 p-3">
+      <section class="py-5">
+        <div class="row align-items-center">
+          <div class="col-md-6">
+            <h1 class="display-4 fw-bold">Get the Loan You Need</h1>
+            <p class="lead">Our loans are designed to help you achieve your financial goals, whether you're looking for a personal loan, a business loan, or a mortgage.</p>
+          </div>
+          <div class="col-md-6">
+            <img src="../static/images/rmb-coins-stacked-front-housing-model-house-prices-house-buying-real-estate-mortgage-concept.jpg" alt="Loan Application" class="img-fluid rounded">
+          </div>
+        </div>
+      </section>
+      <button class="btn btn-outline-primary mt-3" data-bs-toggle="modal" data-bs-target="#loanModal">Get a Loan</button>
+      <div class="modal fade" id="loanModal" tabindex="-1" aria-labelledby="loanModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="loanModalLabel">Choose a Loan Type</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <div class="col-md-6">
-              <img src="placeholder.svg" alt="Loan Application" class="img-fluid rounded">
+            <div class="modal-body">
+              <div class="d-grid gap-2">
+                <button class="btn btn-outline-secondary" data-loan-type="Personal">Personal Loan</button>
+                <button class="btn btn-outline-secondary" data-loan-type="Auto">Auto Loan</button>
+                <button class="btn btn-outline-secondary" data-loan-type="Mortgage">Mortgage Loan</button>
+                <button class="btn btn-outline-secondary" data-loan-type="Student">Student Loan</button>
+                <button class="btn btn-outline-secondary" data-loan-type="Msme">MSME Loan</button>
+                <button class="btn btn-outline-secondary" data-loan-type="Payday">Payday Loan</button>
+              </div>
             </div>
           </div>
-        </section>
-        <button class="btn btn-outline-primary mt-3" data-bs-toggle="modal" data-bs-target="#loanModal">Get a Loan</button>
-        <div class="modal fade" id="loanModal" tabindex="-1" aria-labelledby="loanModalLabel" aria-hidden="true">
-          <div class="modal-dialog">
-            <div class="modal-content">
-              <div class="modal-header">
-                <h5 class="modal-title" id="loanModalLabel">Choose a Loan Type</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-              </div>
-              <div class="modal-body">
-                <div class="d-grid gap-2">
-                  <button class="btn btn-outline-secondary" data-loan-type="Personal">Personal Loan</button>
-                  <button class="btn btn-outline-secondary" data-loan-type="Auto">Auto Loan</button>
-                  <button class="btn btn-outline-secondary" data-loan-type="Mortgage">Mortgage Loan</button>
-                  <button class="btn btn-outline-secondary" data-loan-type="Student">Student Loan</button>
-                  <button class="btn btn-outline-secondary" data-loan-type="Msme">MSME Loan</button>
-                  <button class="btn btn-outline-secondary" data-loan-type="Payday">Payday Loan</button>
+        </div>
+      </div>
+      <form id="loanForm" class="card mt-4 d-none" method="POST" action="/new-loan">
+        <div class="card-header">
+            <h5 class="card-title" id="loanTitle"></h5>
+        </div>
+        <div class="card-body">
+          <input type="hidden" name="loan" id="loanTypeInput">
+  
+          <!-- Estimation Card Content -->
+          <div class="container mt-4">
+            <div class="card shadow">
+              <div class="card-body">
+                <h2 class="card-title text-center mb-4">Estimate Your Payments and Interest Rate</h2>
+                <div class="row">
+                  <div class="col-md-6 mb-4">
+                    <h3 class="h5 mb-3">Estimated Monthly Payment</h3>
+                    <p class="display-4 fw-bold" id="monthly_cost">$391.32</p>
+                        
+                    <h3 class="h5 mb-3 mt-4">Interest Rate</h3>
+                    <p class="h2 fw-bold">6.5%</p>
+                        
+                    <h3 class="h5 mb-3 mt-4">Total Loan Cost</h3>
+                    <p class="h2 fw-bold" id="total_cost">$23,479.38</p>
+                  </div>
+                  <div class="col-md-6">
+                    <label for="loanAmountRange" class="h5 mb-3 form-label">Loan Amount</label>
+                    <p>Value: <span id="demo-amount"></span></p>
+                    <input type="range" class="form-range custom-range" min="500" max="40000" step="500" value="20000" id="loanAmountRange" name="amount">
+                    <div class="d-flex justify-content-between mt-2">
+                      <span class="text-muted">$2,500</span>
+                      <span class="text-muted">$20,000</span>
+                      <span class="text-muted">$40,000</span>
+                    </div>
+                    <label for="loanTermRange" class="h5 mb-3 mt-4 form-label">Loan Term</label>                              <p>Value: <span id="demo-term"></span></p>
+                    <input type="range" class="form-range custom-range" min="2" max="84" step="1" value="60" id="loanTermRange" name="loanterm">
+                    <div class="d-flex justify-content-between mt-2">
+                      <span class="text-muted">36 months</span>
+                      <span class="text-muted">60 months</span>
+                      <span class="text-muted">84 months</span>
+                    </div>
+                    <button type="button" class="btn btn-primary w-100 mt-4" id="update_button">Update Estimate</button>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
-
-        <form id="loanForm" class="card mt-4 d-none" method="POST" action="/new-loan">
-          <div class="card-header">
-            <h5 class="card-title" id="loanTitle"></h5>
-          </div>
-          <div class="card-body">
-            <input type="hidden" name="loan" id="loanTypeInput">
-            <div class="row g-3">
-              <div class="col-md-6">
-                <label for="amount" class="form-label">Loan Amount</label>
-                <input type="number" class="form-control" id="amount" name="amount" required>
-              </div>
-              <div class="col-md-6">
-                <label for="deadline" class="form-label">Deadline</label>
-                <input type="datetime-local" class="form-control" id="deadline" name="deadline" required>
-              </div>
-              </div>
-          </div>
-          <div class="card-footer">
+        <div class="card-footer d-flex justify-content-center">
             <button type="submit" class="btn btn-primary">Apply for Loan</button>
-          </div>
-        </form>
-      </main>
+        </div>
+    </form>
+    
+    </main>
   </div>
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
@@ -105,6 +134,39 @@
     const loanTitle = document.getElementById('loanTitle');
     const loanTypeInput = document.getElementById('loanTypeInput');
 
+    let slider_amount = document.getElementById('loanAmountRange');
+    let amount_output = document.getElementById('demo-amount');
+    amount_output.innerHTML = slider_amount.value;
+
+    slider_amount.oninput = function () {
+      amount_output.innerHTML = slider_amount.value;
+    };
+
+    let slider_term = document.getElementById('loanTermRange');
+    let term_output = document.getElementById('demo-term');
+    term_output.innerHTML = slider_term.value;
+
+    slider_term.oninput = function () {
+      term_output.innerHTML = slider_term.value;
+    };
+
+    const total_months = 12;
+    function calculateAmount(principal, months) {
+      let years = months / total_months;
+
+      return principal * (1 + (10 / 100) / total_months)**(total_months * years);
+    };
+
+    let update_button = document.getElementById('update_button');
+    const monthly_cost = document.getElementById('monthly_cost');
+    const total_cost = document.getElementById('total_cost')
+
+    update_button.onclick = function () {
+      const total = calculateAmount(slider_amount.value, slider_term.value);
+      total_cost.innerHTML = "$" + Math.ceil(total);
+      monthly_cost.innerHTML = "$" + Math.ceil(total / total_months);
+    }
+  
     document.querySelectorAll('[data-loan-type]').forEach(button => {
       button.addEventListener('click', () => {
         const loanType = button.getAttribute('data-loan-type');

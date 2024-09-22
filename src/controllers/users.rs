@@ -4,6 +4,7 @@ use diesel::SelectableHelper;
 use r2d2::LoggingErrorHandler;
 use crate::db_operations::loans::get_user_loans;
 use crate::db_operations::users::get_user_by_email;
+use crate::models::personal_details::NewFormDetails;
 use crate::models::{app_state::AppState, users::*};
 use crate::models::ui::{DashboardTemplate, HomeTemplate, LoginTemplate, RegisterTemplate};
 use crate::schema::users;
@@ -95,6 +96,11 @@ pub async fn register_user(form: web::Form<NewUserForm>, state: web::Data<AppSta
 
 }
 
+
+pub async fn personal_details(form: web::Form<NewFormDetails>) -> HttpResponse {
+    HttpResponse::Ok().finish()
+}
+
 pub async fn login_page(error: Option<String>) -> impl Responder {
     let template = LoginTemplate { error: None};
     HttpResponse::Ok().content_type("text/html").body(template.render().unwrap())
@@ -102,7 +108,7 @@ pub async fn login_page(error: Option<String>) -> impl Responder {
 
 pub async fn login_user(form: web::Form<LoginForm>, state: web::Data<AppState>, session: Session) -> Result<HttpResponse, actix_web::Error> {
     let mut conn = state.pool.get().expect("Unable to get a connection from pool");
-
+    println!("Here we are at the apex of the dilemma");
     let user_exist = get_user_by_email(&mut conn, &form.email);
     match user_exist {
         Some(user) => {
@@ -137,7 +143,7 @@ pub async fn dashboard(state: web::Data<AppState>, session: Session) -> Result<H
                     let dashboard_template = DashboardTemplate {
                         email: Some(user.email.to_string()),
                         user: Some(user),
-                        loans: Some(loans)
+                        loans: loans
                     };
                     println!("User found");
                     Ok(HttpResponse::Ok().content_type("text/html").body(dashboard_template.render().unwrap()))

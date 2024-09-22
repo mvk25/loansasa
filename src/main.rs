@@ -28,6 +28,8 @@ async fn main() -> std::io::Result<()> {
             .route("/", web::get().to(home_page))
             .route("/register", web::get().to(register_page))
             .route("/register", web::post().to(register_user))
+            .route("/personal-details", web::get().to(personal_details))
+            .route("/personal-details", web::post().to(personal_details))
             .route("/login", web::get().to(login_page))
             .route("/login", web::post().to(login_user))
             .route("/dashboard", web::get().to(dashboard))

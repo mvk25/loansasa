@@ -68,7 +68,9 @@
       <div class="d-flex align-items-center gap-2 ms-auto">
         <a href="/new-loan" class="btn btn-outline-light btn-sm">Manage Funds</a>
         <div class="dropdown">
-          <span class="ml-2">Liz Hawaii</span>
+          <!-- {% if let Some(us) = user %}
+            <span class="ml-2">{{ us.first_name }} {{ us.last_name }}</span>
+          {% endif %} -->
           <button class="btn btn-outline-secondary dropdown-toggle" type="button" id="accountMenuButton"
               data-bs-toggle="dropdown" aria-expanded="false">
               <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none"
@@ -191,13 +193,15 @@
                       </tr>
                     </thead>
                     <tbody>
+                      {% for loan in loans %}
                       <tr>
-                        <td>Personal Loan</td>
-                        <td>$5,000</td>
-                        <td>2023-04-15</td>
-                        <td><span class="badge bg-secondary">Approved</span></td>
+                        <td>{{ loan.loan}} Loan</td>
+                        <td>${{ loan.amount }}</td>
+                        <td>{{ loan.deadline }}</td>
+                        <td><span class="badge bg-secondary">{{ loan.status }}</span></td>
                       </tr>
-                      <tr>
+                      {% endfor %}
+                      <!-- <tr>
                         <td>Home Loan</td>
                         <td>$120,000</td>
                         <td>2022-11-30</td>
@@ -214,7 +218,7 @@
                         <td>$25,000</td>
                         <td>2021-09-01</td>
                         <td><span class="badge bg-secondary">Approved</span></td>
-                      </tr>
+                      </tr> -->
                     </tbody>
                   </table>
                 </div>
@@ -241,16 +245,16 @@
           <div class="row mt-3">
             <div class="card bg-warning-custom">
               <div class="card-body">
-                <h4>Investor category</h4>
-                <p>We're sorry, you do not meet the requirements to invest on Assetz Exchange.</p>
-                <p>Please call 0333 011 9830 or email helpdesk@assetzexchange.co.uk to discuss your Investor category.</p>
+                <h4>Loan Eligibility Notice</h4>
+                <p>Unfortunately, your current profile does not meet the criteria for this loan option.</p>
+                <p>If you have any questions or need further assistance, please reach out to us through email helpdesk@loansapp.co.uk to explore alternative solutions.</p>
               </div>
             </div>
             <div class="card bg-warning-custom mt-2">
               <div class="card-body">
                 <h4>Investor category</h4>
-                <p>We're sorry, you do not meet the requirements to invest on Assetz Exchange.</p>
-                <p>Please call 0333 011 9830 or email helpdesk@assetzexchange.co.uk to discuss your Investor category.</p>
+                <p>Good news! We are increasing the maximum loan amounts available to qualified applicants.</p>
+                <p>Additionally, we're reducing interest rates to make repayment easier and more affordable for you.</p>
               </div>
             </div>
             <!-- Repeat for AML check card -->

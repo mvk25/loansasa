@@ -18,7 +18,7 @@ pub struct RegisterTemplate<'a> {
 pub struct DashboardTemplate {
     pub email: Option<String>,
     pub user: Option<Users>,
-    pub loans: Option<Vec<Loans>>
+    pub loans: Vec<Loans>
 }
 
 #[derive(Template)]
@@ -31,5 +31,11 @@ pub struct NewLoanTemplate {
 #[derive(Template)]
 #[template(path = "home.html")]
 pub struct HomeTemplate {
+    pub user: Option<Users>
+}
+
+#[derive(Template)]
+#[template(path = "personal_details.html")]
+pub struct PersonalTemplate {
     pub user: Option<Users>
 }

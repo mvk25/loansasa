@@ -1,7 +1,7 @@
 use actix_session::Session;
 use actix_web::{web::{self, get}, HttpResponse};
 use askama::Template;
-use chrono::NaiveDateTime;
+use chrono::{NaiveDateTime, Months, Utc};
 use diesel::{RunQueryDsl, SelectableHelper};
 use crate::{db_operations::users::get_user_by_email, models::{app_state::AppState, loans::*, ui::NewLoanTemplate}, schema::loans::loan};
 use crate::schema::loans;
@@ -38,15 +38,17 @@ pub async fn new_loan(form: web::Form<NewLoanForm>, session: Session, state: web
                 Some(user) => {
                     println!("Here we are, at the apex of a dilemma");
 
-                    let deadline = NaiveDateTime::parse_from_str(&form.deadline, "%Y-%m-%dT%H:%M").map_err(|err| {
-                        println!("{:?}", err.kind());
-                        actix_web::error::ErrorInternalServerError(err)
-                    })?;
+                    let now = Utc::now().naive_utc();
+
+                    let deadline = now.checked_add_months(Months::new(form.loanterm as u32)).ok_or_else(|| {
+                        actix_web::error::ErrorInternalServerError("Failed to calculate deadline")
+                    }).unwrap();
                     // Populate the NewLoan struct
                     let newloan = NewLoan {
                         loan: form.loan.clone(),
                         amount: form.amount.clone(),
                         upper_limit: user.loan_limit,
+                        loanterm: form.loanterm.clone(),
                         deadline,
                         users_id: user.id
                     };
